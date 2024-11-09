@@ -14,8 +14,9 @@ const app = express();
 // cors
 app.use(
     cors({
-        origin: 'http://127.0.0.1:5501/',
+        origin: 'http://127.0.0.1:5501',
         credentials: true,
+        methods: ['GET', 'POST', 'PUT', 'DELETE'],
     }),
 );
 
@@ -33,15 +34,6 @@ app.use(
     }),
 );
 
-// Middleware
-
-app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-    next();
-});
-
-//
 // API
 app.use("/api", apiRoutes);
 app.get('/', (req, res) => {
