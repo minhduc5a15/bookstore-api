@@ -14,7 +14,7 @@ const app = express();
 // cors
 app.use(
     cors({
-        origin: 'http://127.0.0.1:5501',
+        origin: `https://${process.env.CLIENT_DOMAIN}`,
         credentials: true,
         methods: ['GET', 'POST', 'PUT', 'DELETE'],
     }),
