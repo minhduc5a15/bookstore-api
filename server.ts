@@ -11,12 +11,13 @@ const PORT = process.env.PORT || 3000;
 
 const app = express();
 
+const isProduction = process.env.NODE_ENV === 'production';
+
 // cors
 app.use(
     cors({
-        origin: `https://${process.env.CLIENT_DOMAIN}`,
+        origin: isProduction ? `https://${process.env.CLIENT_DOMAIN}` : 'http://127.0.0.1:5501',
         credentials: true,
-        methods: ['GET', 'POST', 'PUT', 'DELETE'],
     }),
 );
 

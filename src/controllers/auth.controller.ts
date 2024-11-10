@@ -73,15 +73,9 @@ export const handleSignIn = async (req: Request, res: Response) => {
     const { password: hashedPassword, ...userData } = user;
     const token = jwt.sign({ ...userData }, JWT_SECRET, { expiresIn: '1d' });
 
-    res.cookie('authToken', token, {
-        httpOnly: false,
-        secure: process.env.NODE_ENV === 'production',
-        maxAge: 24 * 60 * 60 * 1000,
-        sameSite: 'none',
-        domain: process.env.CLIENT_DOMAIN,
-        path: '/',
-    });
-    return res.status(200).json({ ...userData, token });
+    return res.setHeader('Set-Cookie', `authToken=${token}; httpOnly; max-age=86400; samesite=none;secure`)
+        .status(200)
+        .json({ ...userData, token });
 };
 
 // handle [POST] /api/auth/sign-out
