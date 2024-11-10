@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { getDb } from '../lib/db';
+import { domain, isProduction } from '../../server';
 
 const JWT_SECRET = process.env.JWT_SECRET;
 
@@ -73,9 +74,11 @@ export const handleSignIn = async (req: Request, res: Response) => {
     const { password: hashedPassword, ...userData } = user;
     const token = jwt.sign({ ...userData }, JWT_SECRET, { expiresIn: '1d' });
 
-    return res.setHeader('Set-Cookie', `authToken=${token}; httpOnly; max-age=86400; samesite=none;secure`)
-        .status(200)
-        .json({ ...userData, token });
+    return res.setHeader('Set-Cookie', `authToken=${token}; Max-Age=86400; SameSite=None; Secure`).json({
+        message: 'Sign in successful',
+        user: userData,
+        token,
+    });
 };
 
 // handle [POST] /api/auth/sign-out
