@@ -2,19 +2,19 @@ import { Router } from 'express';
 import { getDb } from '../lib/db';
 
 const router = Router();
-// [POST] /api/cart
-router.post('/cart', async (req, res) => {
+// [POST] /api/carts
+router.post('/carts', async (req, res) => {
     const db = await getDb();
     if (!db) {
         return res.status(500).send('Error connecting to database');
     }
 
-    const { thumbnailId } = req.body;
-    console.log('thumnailId', thumbnailId);
+    const { id } = req.body;
+    console.log('id', id);
     const email = req.user?.email;
     try {
         const user = await db.collection('carts').findOne({ email });
-        const book = await db.collection('books').findOne({ thumbnailId });
+        const book = await db.collection('books').findOne({ id });
 
         if (!book) {
             return res.status(404).json({ message: 'Book not found' });
@@ -34,8 +34,8 @@ router.post('/cart', async (req, res) => {
     }
 });
 
-// [GET] /api/cart
-router.get('/cart', async (req, res) => {
+// [GET] /api/carts
+router.get('/carts', async (req, res) => {
     const db = await getDb();
     if (!db) {
         return res.status(500).send('Error connecting to database');
@@ -54,8 +54,8 @@ router.get('/cart', async (req, res) => {
     }
 });
 
-// [DELETE] /api/cart
-router.delete('/cart', async (req, res) => {
+// [DELETE] /api/carts
+router.delete('/carts', async (req, res) => {
     const db = await getDb();
     if (!db) {
         return res.status(500).send('Error connecting to database');
