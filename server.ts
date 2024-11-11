@@ -9,27 +9,26 @@ const PORT = process.env.PORT || 3000;
 const app = express();
 
 export const isProduction = process.env.NODE_ENV === 'production';
-
 export const domain = isProduction ? `${process.env.CLIENT_DOMAIN}` : '127.0.0.1';
+export const corsOptions = {
+    origin: isProduction ? `https://${domain}` : 'http://127.0.0.1:5501',
+    credentials: true,
+};
 
 // cors
 app.use(cookieParser());
-app.use(
-    cors({
-        origin: isProduction ? `https://${process.env.CLIENT_DOMAIN}` : 'http://127.0.0.1:5501',
-        credentials: true,
-    }),
-);
+app.use(cors(corsOptions));
 
 app.use(express.json());
 app.use(urlencoded({ extended: true }));
+
 app.use((req, res, next) => {
-    res.on('finish', () => {
-        const setCookieHeader = res.getHeader('Set-Cookie');
-        if (setCookieHeader) {
-            console.log('Set-Cookie header:', setCookieHeader);
-        }
-    });
+    const yellow = '\x1b[33m';
+    const blue = '\x1b[34m';
+    const pink = '\x1b[35m';
+    const reset = '\x1b[0m';
+
+    console.log(`${yellow}[${req.method}]${reset} ${blue}${req.originalUrl}${reset} at ${pink}${new Date()}${reset}`);
     next();
 });
 

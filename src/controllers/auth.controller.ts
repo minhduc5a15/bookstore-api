@@ -76,7 +76,7 @@ export const handleSignIn = async (req: Request, res: Response) => {
 
     return res.setHeader('Set-Cookie', `authToken=${token}; Max-Age=86400; SameSite=None; Secure`).json({
         message: 'Sign in successful',
-        user: userData,
+        user: { ...userData, token },
         token,
     });
 };
