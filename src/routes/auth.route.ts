@@ -1,7 +1,6 @@
 import express, { Request, Response } from 'express';
 import { handleSignIn, handleSignUp, handleSignOut } from '../controllers/auth.controller';
 import { type User } from '../lib/types';
-import jwt from 'jsonwebtoken';
 import authMiddleware from '../middlewares/auth.middleware';
 
 

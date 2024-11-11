@@ -9,9 +9,9 @@ const PORT = process.env.PORT || 3000;
 const app = express();
 
 export const isProduction = process.env.NODE_ENV === 'production';
-export const domain = isProduction ? `${process.env.CLIENT_DOMAIN}` : '127.0.0.1';
+export const domain = isProduction ? `${process.env.CLIENT_DOMAIN}` : 'test-localhost';
 export const corsOptions = {
-    origin: isProduction ? `https://${domain}` : 'http://127.0.0.1:5501',
+    origin: isProduction ? `https://${domain}` : 'http://test-localhost:5173',
     credentials: true,
 };
 

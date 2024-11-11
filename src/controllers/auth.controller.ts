@@ -83,8 +83,15 @@ export const handleSignIn = async (req: Request, res: Response) => {
 
 // handle [POST] /api/auth/sign-out
 export const handleSignOut = async (req: Request, res: Response) => {
-    res.clearCookie('authToken');
-    return res.status(200).json({ message: 'Sign out successful' });
+    req.user = undefined;
+    req.token = undefined;
+    return res
+        .clearCookie('authToken', {
+            sameSite: 'none',
+            secure: true,
+            httpOnly: true,
+        })
+        .json({ message: 'Sign out successful' });
 };
 
 // handle [GET] /api/auth/me

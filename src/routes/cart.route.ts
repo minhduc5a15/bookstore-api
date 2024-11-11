@@ -12,6 +12,7 @@ router.post('/carts', async (req, res) => {
     const { id } = req.body;
     console.log('id', id);
     const email = req.user?.email;
+    
     try {
         const user = await db.collection('carts').findOne({ email });
         const book = await db.collection('books').findOne({ id });
@@ -60,15 +61,15 @@ router.delete('/carts', async (req, res) => {
     if (!db) {
         return res.status(500).send('Error connecting to database');
     }
-    const { thumbnailId } = req.body;
-    console.log('thumnailId', thumbnailId);
+    const { id } = req.body;
+    console.log('id', id);
     const email = req.user?.email;
     try {
         const user = await db.collection('carts').findOne({ email });
         if (!user) {
             return res.status(404).json({ message: 'Cart not found' });
         }
-        await db.collection('carts').updateOne({ email }, { $pull: { carts: { thumbnailId: thumbnailId } as any } });
+        await db.collection('carts').updateOne({ email }, { $pull: { carts: { id } as any } });
         return res.status(200).json({ message: 'Book removed from cart' });
     } catch (error) {
         console.error(error);
