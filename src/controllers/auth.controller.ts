@@ -2,7 +2,6 @@ import { Request, Response } from 'express';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { getDb } from '../lib/db';
-import { domain, isProduction } from '../../server';
 
 const JWT_SECRET = process.env.JWT_SECRET;
 
